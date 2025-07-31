@@ -1,7 +1,5 @@
 <cfquery name="clients" datasource="clients">
-    SELECT id, name, email, phone, company, address, createdDate, modifiedDate
-    FROM clients
-    ORDER BY name
+    {call sp_GetAllClients}
 </cfquery>
 
 <!DOCTYPE html>

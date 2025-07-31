@@ -2,7 +2,7 @@ component {
 
     public numeric function getClientCount() {
         var result = queryExecute(
-            "SELECT COUNT(*) as clientCount FROM clients",
+            "{call sp_GetClientCount}",
             {},
             {datasource: "clients"}
         );
@@ -11,7 +11,7 @@ component {
 
     public boolean function clientExists(required string id) {
         var result = queryExecute(
-            "SELECT COUNT(*) as clientCount FROM clients WHERE id = ?",
+            "{call sp_ClientExists(?)}",
             [arguments.id],
             {datasource: "clients"}
         );
@@ -21,12 +21,8 @@ component {
     public query function searchClients(required string searchTerm) {
         var term = "%" & trim(arguments.searchTerm) & "%";
         var result = queryExecute(
-            "SELECT * FROM clients 
-             WHERE name LIKE ? 
-             OR email LIKE ? 
-             OR company LIKE ?
-             ORDER BY name",
-            [term, term, term],
+            "{call sp_SearchClients(?)}",
+            [term],
             {datasource: "clients"}
         );
         return result;
@@ -34,7 +30,7 @@ component {
 
     public query function getAllClients() {
         var result = queryExecute(
-            "SELECT * FROM clients ORDER BY name",
+            "{call sp_GetAllClients}",
             {},
             {datasource: "clients"}
         );
@@ -43,7 +39,7 @@ component {
 
     public query function getClientById(required string id) {
         var result = queryExecute(
-            "SELECT * FROM clients WHERE id = ?",
+            "{call sp_GetClientById(?)}",
             [arguments.id],
             {datasource: "clients"}
         );
@@ -56,15 +52,14 @@ component {
             var currentDateTime = now();
             
             queryExecute(
-                "INSERT INTO clients (id, name, email, phone, company, address, createdDate) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?)",
+                "{call sp_AddClient(?, ?, ?, ?, ?, ?, ?)}",
                 [
                     newId,
                     trim(arguments.clientData.name),
                     trim(arguments.clientData.email),
-                    trim(arguments.clientData.phone),
-                    trim(arguments.clientData.company),
-                    trim(arguments.clientData.address),
+                    len(trim(arguments.clientData.phone)) ? trim(arguments.clientData.phone) : javacast("null", ""),
+                    len(trim(arguments.clientData.company)) ? trim(arguments.clientData.company) : javacast("null", ""),
+                    len(trim(arguments.clientData.address)) ? trim(arguments.clientData.address) : javacast("null", ""),
                     currentDateTime
                 ],
                 {datasource: "clients"}
@@ -78,17 +73,15 @@ component {
     public boolean function updateClient(required string id, required struct clientData) {
         try {
             var result = queryExecute(
-                "UPDATE clients 
-                 SET name = ?, email = ?, phone = ?, company = ?, address = ?, modifiedDate = ?
-                 WHERE id = ?",
+                "{call sp_UpdateClient(?, ?, ?, ?, ?, ?, ?)}",
                 [
+                    arguments.id,
                     trim(arguments.clientData.name),
                     trim(arguments.clientData.email),
-                    trim(arguments.clientData.phone),
-                    trim(arguments.clientData.company),
-                    trim(arguments.clientData.address),
-                    now(),
-                    arguments.id
+                    len(trim(arguments.clientData.phone)) ? trim(arguments.clientData.phone) : javacast("null", ""),
+                    len(trim(arguments.clientData.company)) ? trim(arguments.clientData.company) : javacast("null", ""),
+                    len(trim(arguments.clientData.address)) ? trim(arguments.clientData.address) : javacast("null", ""),
+                    now()
                 ],
                 {datasource: "clients"}
             );
@@ -101,7 +94,7 @@ component {
     public boolean function deleteClient(required string id) {
         try {
             queryExecute(
-                "DELETE FROM clients WHERE id = ?",
+                "{call sp_DeleteClient(?)}",
                 [arguments.id],
                 {datasource: "clients"}
             );

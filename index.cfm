@@ -1,5 +1,5 @@
 <cfquery name="clientCount" datasource="clients">
-    SELECT COUNT(*) AS total FROM clients
+    {call sp_GetDashboardClientCount}
 </cfquery>
 
 <!DOCTYPE html>

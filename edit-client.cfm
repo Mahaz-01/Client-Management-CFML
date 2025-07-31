@@ -6,7 +6,8 @@
 </cfif>
 
 <cfquery name="clientQuery" datasource="clients">
-    SELECT * FROM clients WHERE id = <cfqueryparam value="#url.id#" cfsqltype="cf_sql_varchar">
+    {call sp_GetClientById(?)}
+    <cfqueryparam value="#url.id#" cfsqltype="cf_sql_varchar">
 </cfquery>
 
 <cfif clientQuery.recordCount EQ 0>
@@ -16,14 +17,14 @@
 
 <cfif structKeyExists(form, "submit")>
     <cfquery datasource="clients">
-        UPDATE clients
-        SET
-            name = <cfqueryparam value="#trim(form.name)#" cfsqltype="cf_sql_varchar">,
-            email = <cfqueryparam value="#trim(form.email)#" cfsqltype="cf_sql_varchar">,
-            phone = <cfqueryparam value="#trim(form.phone)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.phone))#">,
-            company = <cfqueryparam value="#trim(form.company)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.company))#">,
-            address = <cfqueryparam value="#trim(form.address)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.address))#">
-        WHERE id = <cfqueryparam value="#form.id#" cfsqltype="cf_sql_varchar">
+        {call sp_UpdateClient(?, ?, ?, ?, ?, ?, ?)}
+        <cfqueryparam value="#form.id#" cfsqltype="cf_sql_varchar">,
+        <cfqueryparam value="#trim(form.name)#" cfsqltype="cf_sql_varchar">,
+        <cfqueryparam value="#trim(form.email)#" cfsqltype="cf_sql_varchar">,
+        <cfqueryparam value="#trim(form.phone)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.phone))#">,
+        <cfqueryparam value="#trim(form.company)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.company))#">,
+        <cfqueryparam value="#trim(form.address)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.address))#">,
+        <cfqueryparam value="#now()#" cfsqltype="cf_sql_timestamp">
     </cfquery>
     <cfset session.message = "Client updated successfully.">
     <cflocation url="clients.cfm" addtoken="false">

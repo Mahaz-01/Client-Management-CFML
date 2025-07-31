@@ -3,16 +3,14 @@
     <cfset currentDateTime = now()>
 
     <cfquery datasource="clients">
-        INSERT INTO clients (id, name, email, phone, company, address, createdDate)
-        VALUES (
-            <cfqueryparam value="#newId#" cfsqltype="cf_sql_varchar">,
-            <cfqueryparam value="#trim(form.name)#" cfsqltype="cf_sql_varchar">,
-            <cfqueryparam value="#trim(form.email)#" cfsqltype="cf_sql_varchar">,
-            <cfqueryparam value="#trim(form.phone)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.phone))#">,
-            <cfqueryparam value="#trim(form.company)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.company))#">,
-            <cfqueryparam value="#trim(form.address)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.address))#">,
-            <cfqueryparam value="#currentDateTime#" cfsqltype="cf_sql_timestamp">
-        )
+        {call sp_AddClient(?, ?, ?, ?, ?, ?, ?)}
+        <cfqueryparam value="#newId#" cfsqltype="cf_sql_varchar">,
+        <cfqueryparam value="#trim(form.name)#" cfsqltype="cf_sql_varchar">,
+        <cfqueryparam value="#trim(form.email)#" cfsqltype="cf_sql_varchar">,
+        <cfqueryparam value="#trim(form.phone)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.phone))#">,
+        <cfqueryparam value="#trim(form.company)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.company))#">,
+        <cfqueryparam value="#trim(form.address)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.address))#">,
+        <cfqueryparam value="#currentDateTime#" cfsqltype="cf_sql_timestamp">
     </cfquery>
 
     <cfset session.message = "Client added successfully.">
