@@ -1,6 +1,6 @@
-<cfquery name="clientCount" datasource="clients">
-    {call spGetDashboardClientCount}
-</cfquery>
+<cfstoredproc procedure="spGetDashboardClientCount" datasource="clients">
+    <cfprocresult name="clientCount">
+</cfstoredproc>
 
 <!DOCTYPE html>
 <html lang="en">

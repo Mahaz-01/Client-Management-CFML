@@ -1,6 +1,6 @@
-<cfquery name="clients" datasource="clients">
-    {call spGetAllClients}
-</cfquery>
+<cfstoredproc procedure="spGetAllClients" datasource="clients">
+    <cfprocresult name="clients">
+</cfstoredproc>
 
 <!DOCTYPE html>
 <html lang="en">

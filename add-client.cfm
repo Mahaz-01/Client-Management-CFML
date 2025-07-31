@@ -2,16 +2,15 @@
     <cfset newId = createUUID()>
     <cfset currentDateTime = now()>
 
-    <cfquery datasource="clients">
-        {call spAddClient(?, ?, ?, ?, ?, ?, ?)}
-        <cfqueryparam value="#newId#" cfsqltype="cf_sql_varchar">,
-        <cfqueryparam value="#trim(form.name)#" cfsqltype="cf_sql_varchar">,
-        <cfqueryparam value="#trim(form.email)#" cfsqltype="cf_sql_varchar">,
-        <cfqueryparam value="#trim(form.phone)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.phone))#">,
-        <cfqueryparam value="#trim(form.company)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.company))#">,
-        <cfqueryparam value="#trim(form.address)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.address))#">,
-        <cfqueryparam value="#currentDateTime#" cfsqltype="cf_sql_timestamp">
-    </cfquery>
+    <cfstoredproc procedure="spAddClient" datasource="clients">
+        <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#newId#">
+        <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#trim(form.name)#">
+        <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#trim(form.email)#">
+        <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#trim(form.phone)#" null="#not len(trim(form.phone))#">
+        <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#trim(form.company)#" null="#not len(trim(form.company))#">
+        <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#trim(form.address)#" null="#not len(trim(form.address))#">
+        <cfprocparam type="in" cfsqltype="cf_sql_timestamp" value="#currentDateTime#">
+    </cfstoredproc>
 
     <cfset session.message = "Client added successfully.">
     <cflocation url="clients.cfm" addtoken="false">

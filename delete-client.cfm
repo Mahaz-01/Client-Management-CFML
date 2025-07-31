@@ -5,17 +5,16 @@
     <cflocation url="clients.cfm" addtoken="false">
 </cfif>
 
-<cfquery name="checkClient" datasource="clients">
-    {call spClientExists(?)}
-    <cfqueryparam value="#url.id#" cfsqltype="cf_sql_varchar">
-</cfquery>
+<cfstoredproc procedure="spClientExists" datasource="clients">
+    <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#url.id#">
+    <cfprocresult name="checkClient">
+</cfstoredproc>
 
 <cfif checkClient.clientCount[1] GT 0>
     <cftry>
-        <cfquery datasource="clients">
-            {call spDeleteClient(?)}
-            <cfqueryparam value="#url.id#" cfsqltype="cf_sql_varchar">
-        </cfquery>
+        <cfstoredproc procedure="spDeleteClient" datasource="clients">
+            <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#url.id#">
+        </cfstoredproc>
         <cfset session.message = "Client deleted successfully!">
         <cfcatch>
             <cfset session.message = "Error deleting client. Please try again.">

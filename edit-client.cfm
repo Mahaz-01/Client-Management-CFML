@@ -5,10 +5,10 @@
     <cflocation url="clients.cfm" addtoken="false">
 </cfif>
 
-<cfquery name="clientQuery" datasource="clients">
-    {call spGetClientById(?)}
-    <cfqueryparam value="#url.id#" cfsqltype="cf_sql_varchar">
-</cfquery>
+<cfstoredproc procedure="spGetClientById" datasource="clients">
+    <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#url.id#">
+    <cfprocresult name="clientQuery">
+</cfstoredproc>
 
 <cfif clientQuery.recordCount EQ 0>
     <cfset session.message = "Client not found!">
@@ -16,16 +16,15 @@
 </cfif>
 
 <cfif structKeyExists(form, "submit")>
-    <cfquery datasource="clients">
-        {call spUpdateClient(?, ?, ?, ?, ?, ?, ?)}
-        <cfqueryparam value="#form.id#" cfsqltype="cf_sql_varchar">,
-        <cfqueryparam value="#trim(form.name)#" cfsqltype="cf_sql_varchar">,
-        <cfqueryparam value="#trim(form.email)#" cfsqltype="cf_sql_varchar">,
-        <cfqueryparam value="#trim(form.phone)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.phone))#">,
-        <cfqueryparam value="#trim(form.company)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.company))#">,
-        <cfqueryparam value="#trim(form.address)#" cfsqltype="cf_sql_varchar" null="#not len(trim(form.address))#">,
-        <cfqueryparam value="#now()#" cfsqltype="cf_sql_timestamp">
-    </cfquery>
+    <cfstoredproc procedure="spUpdateClient" datasource="clients">
+        <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#form.id#">
+        <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#trim(form.name)#">
+        <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#trim(form.email)#">
+        <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#trim(form.phone)#" null="#not len(trim(form.phone))#">
+        <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#trim(form.company)#" null="#not len(trim(form.company))#">
+        <cfprocparam type="in" cfsqltype="cf_sql_varchar" value="#trim(form.address)#" null="#not len(trim(form.address))#">
+        <cfprocparam type="in" cfsqltype="cf_sql_timestamp" value="#now()#">
+    </cfstoredproc>
     <cfset session.message = "Client updated successfully.">
     <cflocation url="clients.cfm" addtoken="false">
 </cfif>
