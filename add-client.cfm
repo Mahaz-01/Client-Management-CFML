@@ -3,7 +3,7 @@
     <cfset currentDateTime = now()>
 
     <cfquery datasource="clients">
-        {call sp_AddClient(?, ?, ?, ?, ?, ?, ?)}
+        {call spAddClient(?, ?, ?, ?, ?, ?, ?)}
         <cfqueryparam value="#newId#" cfsqltype="cf_sql_varchar">,
         <cfqueryparam value="#trim(form.name)#" cfsqltype="cf_sql_varchar">,
         <cfqueryparam value="#trim(form.email)#" cfsqltype="cf_sql_varchar">,

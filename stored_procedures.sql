@@ -6,7 +6,7 @@
 -- =============================================
 -- Get total client count
 -- =============================================
-CREATE PROCEDURE [dbo].[sp_GetClientCount]
+CREATE PROCEDURE [dbo].[spGetClientCount]
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -19,7 +19,7 @@ GO
 -- =============================================
 -- Check if client exists by ID
 -- =============================================
-CREATE PROCEDURE [dbo].[sp_ClientExists]
+CREATE PROCEDURE [dbo].[spClientExists]
     @ClientId NVARCHAR(36)
 AS
 BEGIN
@@ -34,7 +34,7 @@ GO
 -- =============================================
 -- Get all clients ordered by name
 -- =============================================
-CREATE PROCEDURE [dbo].[sp_GetAllClients]
+CREATE PROCEDURE [dbo].[spGetAllClients]
 AS
 BEGIN
     SET NOCOUNT ON;
@@ -48,7 +48,7 @@ GO
 -- =============================================
 -- Get client by ID
 -- =============================================
-CREATE PROCEDURE [dbo].[sp_GetClientById]
+CREATE PROCEDURE [dbo].[spGetClientById]
     @ClientId NVARCHAR(36)
 AS
 BEGIN
@@ -63,7 +63,7 @@ GO
 -- =============================================
 -- Search clients by name, email, or company
 -- =============================================
-CREATE PROCEDURE [dbo].[sp_SearchClients]
+CREATE PROCEDURE [dbo].[spSearchClients]
     @SearchTerm NVARCHAR(255)
 AS
 BEGIN
@@ -81,7 +81,7 @@ GO
 -- =============================================
 -- Add new client
 -- =============================================
-CREATE PROCEDURE [dbo].[sp_AddClient]
+CREATE PROCEDURE [dbo].[spAddClient]
     @ClientId NVARCHAR(36),
     @Name NVARCHAR(255),
     @Email NVARCHAR(255),
@@ -101,7 +101,7 @@ GO
 -- =============================================
 -- Update existing client
 -- =============================================
-CREATE PROCEDURE [dbo].[sp_UpdateClient]
+CREATE PROCEDURE [dbo].[spUpdateClient]
     @ClientId NVARCHAR(36),
     @Name NVARCHAR(255),
     @Email NVARCHAR(255),
@@ -127,7 +127,7 @@ GO
 -- =============================================
 -- Delete client by ID
 -- =============================================
-CREATE PROCEDURE [dbo].[sp_DeleteClient]
+CREATE PROCEDURE [dbo].[spDeleteClient]
     @ClientId NVARCHAR(36)
 AS
 BEGIN
@@ -141,7 +141,7 @@ GO
 -- =============================================
 -- Get client count for dashboard
 -- =============================================
-CREATE PROCEDURE [dbo].[sp_GetDashboardClientCount]
+CREATE PROCEDURE [dbo].[spGetDashboardClientCount]
 AS
 BEGIN
     SET NOCOUNT ON;

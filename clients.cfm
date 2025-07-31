@@ -1,5 +1,5 @@
 <cfquery name="clients" datasource="clients">
-    {call sp_GetAllClients}
+    {call spGetAllClients}
 </cfquery>
 
 <!DOCTYPE html>

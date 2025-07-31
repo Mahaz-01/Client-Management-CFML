@@ -1,5 +1,5 @@
 <cfquery name="clientCount" datasource="clients">
-    {call sp_GetDashboardClientCount}
+    {call spGetDashboardClientCount}
 </cfquery>
 
 <!DOCTYPE html>

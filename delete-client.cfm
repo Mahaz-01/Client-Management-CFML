@@ -6,14 +6,14 @@
 </cfif>
 
 <cfquery name="checkClient" datasource="clients">
-    {call sp_ClientExists(?)}
+    {call spClientExists(?)}
     <cfqueryparam value="#url.id#" cfsqltype="cf_sql_varchar">
 </cfquery>
 
 <cfif checkClient.clientCount[1] GT 0>
     <cftry>
         <cfquery datasource="clients">
-            {call sp_DeleteClient(?)}
+            {call spDeleteClient(?)}
             <cfqueryparam value="#url.id#" cfsqltype="cf_sql_varchar">
         </cfquery>
         <cfset session.message = "Client deleted successfully!">

@@ -6,7 +6,7 @@
 </cfif>
 
 <cfquery name="clientQuery" datasource="clients">
-    {call sp_GetClientById(?)}
+    {call spGetClientById(?)}
     <cfqueryparam value="#url.id#" cfsqltype="cf_sql_varchar">
 </cfquery>
 
@@ -17,7 +17,7 @@
 
 <cfif structKeyExists(form, "submit")>
     <cfquery datasource="clients">
-        {call sp_UpdateClient(?, ?, ?, ?, ?, ?, ?)}
+        {call spUpdateClient(?, ?, ?, ?, ?, ?, ?)}
         <cfqueryparam value="#form.id#" cfsqltype="cf_sql_varchar">,
         <cfqueryparam value="#trim(form.name)#" cfsqltype="cf_sql_varchar">,
         <cfqueryparam value="#trim(form.email)#" cfsqltype="cf_sql_varchar">,
